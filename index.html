@@ -1,289 +1,471 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Mohammed Salem Alhebshi</title>
-    <meta name="description" content="Professional portfolio showing skills and projects of a web developer.">
+    <meta name="description"
+        content="Mohammed Salem Alhebshi - Professional Flutter Developer Portfolio. Explore my mobile apps, projects, and contact me for collaboration.">
+    <meta name="keywords" content="Flutter, Dart, Mobile App Developer, Portfolio, Mohammed Salem">
+    <meta name="author" content="Mohammed Salem Alhebshi">
+    <title>Mohammed Salem Alhebshi | Flutter Developer</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#4f46e5',
+                            dark: '#818cf8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark .navbar {
+            background-color: rgba(17, 24, 39, 0.8);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #4f46e5;
+            transition: width 0.3s;
+        }
+
+        .dark .nav-link::after {
+            background-color: #818cf8;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .mobile-menu.open {
+            max-height: 600px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: currentColor;
+            transition: all 0.3s;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    </style>
 </head>
 
-<body>
-
-    <div class="cursor"></div>
-    <div class="cursor2"></div>
+<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#" class="logo">Mohammed Salem Alhabshi</a>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
+    <nav class="navbar fixed top-0 w-full z-50 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center" data-aos="fade-in">
+                    <a href="#"
+                        class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        Mohammed Salem
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle"
+                        class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center space-x-4">
+                    <button id="themeToggleMobile" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+
+                    <button id="mobileMenuButton" class="hamburger flex flex-col justify-center items-center p-2">
+                        <span></span>
+                        <span class="my-1.5"></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="mobile-menu md:hidden bg-white dark:bg-gray-900 rounded-2xl shadow-md mt-2">
+                <div class="px-4 py-6 space-y-3">
+                    <a href="#home"
+                        class="block px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all">
+                        <i class="fas fa-home text-indigo-600 dark:text-indigo-400 mr-3"></i>
+                        Home
+                    </a>
+                    <a href="#about"
+                        class="block px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all">
+                        <i class="fas fa-user text-indigo-600 dark:text-indigo-400 mr-3"></i>
+                        About
+                    </a>
+                    <a href="#skills"
+                        class="block px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all">
+                        <i class="fas fa-code text-indigo-600 dark:text-indigo-400 mr-3"></i>
+                        Skills
+                    </a>
+                    <a href="#projects"
+                        class="block px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all">
+                        <i class="fas fa-project-diagram text-indigo-600 dark:text-indigo-400 mr-3"></i>
+                        Projects
+                    </a>
+                    <a href="#contact"
+                        class="block px-4 py-3 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all">
+                        <i class="fas fa-envelope text-indigo-600 dark:text-indigo-400 mr-3"></i>
+                        Contact
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container hero-content">
-            <div class="hero-text reveal">
-                <h1>Hi, I'm <span class="highlight">Mohammed Salem Alhabshi</span></h1>
-                <h2>Flutter Mobile Developer</h2>
-                <p>Passionate mobile app developer with 2 years of experience creating smooth and efficient applications
-                    using Flutter.</p>
-                <div class="hero-btns">
-                    <a href="#projects" class="btn btn-primary">View My Work</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
+    <section id="home"
+        class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800 dark:from-gray-950 dark:via-indigo-900 dark:to-gray-900 text-white relative overflow-hidden pt-16">
+        <div class="text-center max-w-2xl mx-auto px-4 relative z-10 py-20">
+            <!-- Profile Image -->
+            <div class="relative inline-block mb-8 group" data-aos="zoom-in">
+                <div
+                    class="absolute inset-0 bg-blue-500 dark:bg-indigo-500 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition duration-500">
                 </div>
-            </div>
-            <div class="hero-image reveal">
-                <img src="image/Photo.jpg" alt="Mohammed Salem Alhabshi" class="profile-img">
-            </div>
-            <!-- Floating Shapes -->
-            <div class="circles">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+                <img src="image/Photo.jpg" alt="Mohammed Salem"
+                    class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-white/10 shadow-xl object-cover relative z-10 transition duration-300 group-hover:border-indigo-400">
+                <div
+                    class="absolute -bottom-2 -right-2 bg-blue-600 dark:bg-indigo-500 text-white p-2 rounded-full z-20 shadow-md border-2 border-white">
+                    <i class="fas fa-check"></i>
+                </div>
             </div>
 
-            <!-- Scroll Down Indicator -->
-            <div class="scroll-down">
-                <div class="mouse">
-                    <div class="wheel"></div>
+            <!-- Headline -->
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight" data-aos="fade-up">
+                Crafting Mobile Experiences with <span class="text-blue-400 dark:text-indigo-300">Flutter</span>
+            </h1>
+
+            <!-- Specialization Badge -->
+            <div class="inline-flex items-center bg-gray-800/50 dark:bg-gray-900/50 border border-gray-700 rounded-full px-4 py-2 mb-6"
+                data-aos="fade-up" data-aos-delay="100">
+                <span class="h-2 w-2 bg-blue-500 dark:bg-indigo-400 rounded-full mr-2 animate-pulse"></span>
+                <span class="text-sm md:text-base">Expert in Cross-Platform App Development</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-gray-300 dark:text-gray-200 mb-8 text-lg leading-relaxed max-w-lg mx-auto" data-aos="fade-up"
+                data-aos-delay="200">
+                I build high-performance mobile applications with beautiful UI and seamless user experience using
+                Flutter framework.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
+                <a href="#projects"
+                    class="bg-blue-600 dark:bg-indigo-500 hover:bg-blue-700 dark:hover:bg-indigo-600 text-white px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                    <i class="fas fa-briefcase"></i>
+                    View My Work
+                </a>
+                <a href="#contact"
+                    class="border border-blue-400 dark:border-indigo-300 text-blue-400 dark:text-indigo-300 hover:bg-blue-400/10 px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition transform hover:-translate-y-1">
+                    <i class="fas fa-envelope"></i>
+                    Hire Me
+                </a>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="mt-12 flex flex-wrap justify-center gap-4 opacity-90" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex items-center">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Flutter</span>
                 </div>
-                <div class="arrow">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="flex items-center">
+                    <div class="w-3 h-3 bg-blue-400 rounded-full mr-2"></div>
+                    <span class="text-sm">Dart</span>
                 </div>
+                <div class="flex items-center">
+                    <div class="w-3 h-3 bg-orange-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Firebase</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Android</span>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="mt-8 flex justify-center gap-4" data-aos="fade-up" data-aos-delay="500">
+                <a href="https://www.linkedin.com/in/mohammed-salem-8a8b62383" target="_blank"
+                    class="text-blue-500 hover:text-blue-400 transition text-xl">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/MsalemX" target="_blank"
+                    class="text-gray-200 hover:text-white transition text-xl">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="mailto:bnwbsalm9@gmail.com" class="text-red-400 hover:text-red-300 transition text-xl">
+                    <i class="fas fa-envelope"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title reveal">About Me</h2>
-            <div class="about-content reveal">
-                <div class="about-text">
-                    <p>
-                        I am a dedicated Flutter Developer with 2 years of experience in building high-quality mobile
-                        applications for both Android and iOS.
-                        I specialize in creating beautiful, responsive UIs and performant apps. My journey involves
-                        continuous learning and applying best practices in mobile development.
-                    </p>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/mohammed-salem-8a8b62383?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                            target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/MsalemX" target="_blank"><i class="fab fa-github"></i></a>
-                        <a href="mailto:bnwbsalm9@gmail.com"><i class="fas fa-envelope"></i></a>
-                    </div>
-                </div>
-            </div>
+    <section id="about" class="py-20 bg-white dark:bg-gray-950">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-8" data-aos="fade-up">About Me</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 text-center leading-relaxed" data-aos="fade-up"
+                data-aos-delay="100">
+                I am a dedicated Flutter Developer with 2 years of experience in building high-quality mobile
+                applications for both Android and iOS. I specialize in creating beautiful, responsive UIs and performant
+                apps.
+                My journey involves continuous learning and applying best practices in mobile development.
+            </p>
         </div>
     </section>
 
-    <!-- Skills Section (Diamond Layout) -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title reveal">My Skills</h2>
-            <div class="skills-diamond-wrapper reveal">
-                <!-- Skill 1 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fas fa-mobile-alt"></i>
-                        <h3>95%</h3>
-                        <p>Flutter</p>
+    <!-- Skills Section -->
+    <section id="skills" class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Technical Expertise</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300">My specialized skills as a Mobile Application
+                    Developer</p>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+                <!-- Flutter -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-flutter text-blue-500 dark:text-indigo-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">Flutter</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 95%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">95%</span>
                 </div>
-                <!-- Skill 2 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fas fa-code"></i>
-                        <h3>90%</h3>
-                        <p>Dart</p>
+
+                <!-- Dart -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-code text-blue-400 dark:text-indigo-200 text-3xl mr-3"></i>
+                        <h4 class="font-medium">Dart</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 90%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">90%</span>
                 </div>
-                <!-- Skill 3 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fab fa-laravel"></i>
-                        <h3>85%</h3>
-                        <p>Laravel</p>
+
+                <!-- Laravel -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-laravel text-red-500 dark:text-red-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">Laravel</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">85%</span>
                 </div>
-                <!-- Skill 4 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fas fa-fire"></i>
-                        <h3>80%</h3>
-                        <p>Firebase</p>
+
+                <!-- Firebase -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-fire text-yellow-500 dark:text-yellow-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">Firebase</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 80%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">80%</span>
                 </div>
-                <!-- Skill 5 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fas fa-database"></i>
-                        <h3>85%</h3>
-                        <p>SQLite</p>
+
+                <!-- SQLite -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-database text-green-500 dark:text-green-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">SQLite</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">85%</span>
                 </div>
-                <!-- Skill 6 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fab fa-html5"></i>
-                        <h3>90%</h3>
-                        <p>HTML</p>
+
+                <!-- HTML -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-html5 text-orange-500 dark:text-orange-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">HTML</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 90%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">90%</span>
                 </div>
-                <!-- Skill 7 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fab fa-css3-alt"></i>
-                        <h3>85%</h3>
-                        <p>CSS</p>
+
+                <!-- CSS -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-css3-alt text-blue-500 dark:text-blue-300 text-3xl mr-3"></i>
+                        <h4 class="font-medium">CSS</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 85%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">85%</span>
                 </div>
-                <!-- Skill 8 -->
-                <div class="skill-diamond">
-                    <div class="skill-inner">
-                        <i class="fab fa-github"></i>
-                        <h3>90%</h3>
-                        <p>Git/GitHub</p>
+
+                <!-- Git/GitHub -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fab fa-github text-gray-800 dark:text-gray-200 text-3xl mr-3"></i>
+                        <h4 class="font-medium">Git/GitHub</h4>
                     </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="bg-blue-500 dark:bg-indigo-400 h-2 rounded-full" style="width: 90%"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block text-right">90%</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title reveal">Featured Projects</h2>
-            <div class="projects-grid reveal">
-                <!-- Project 1 -->
-                <div class="project-card" data-id="1">
-                    <div class="project-img">
-                        <!-- Place your project image/video here -->
-                        <div class="img-placeholder-small">Project 1 Screenshot/Video</div>
+    <section id="projects" class="py-20 bg-white dark:bg-gray-950">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12" data-aos="fade-up">Featured Projects</h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card Example -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                    data-aos="fade-up">
+                    <div
+                        class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
+                        <i class="fas fa-mobile-alt text-6xl"></i>
                     </div>
-                    <div class="project-info">
-                        <h3>[Project Name 1]</h3>
-                        <p>[Short description of the app features]</p>
-                        <div class="tech-stack">
-                            <span>Flutter</span>
-                            <span>Dart</span>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Project Name</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Short description of the app features and
+                            functionality.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm">Flutter</span>
+                            <span
+                                class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm">Dart</span>
                         </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        </div>
+                        <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center">
+                            <i class="fab fa-github mr-2"></i>
+                            View on GitHub
+                        </a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="project-card" data-id="2">
-                    <div class="project-img">
-                        <div class="img-placeholder-small">Project 2 Screenshot/Video</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>[Project Name 2]</h3>
-                        <p>[Short description of the app features]</p>
-                        <div class="tech-stack">
-                            <span>Flutter</span>
-                            <span>Firebase</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="project-card" data-id="3">
-                    <div class="project-img">
-                        <div class="img-placeholder-small">Project 3 Screenshot/Video</div>
-                    </div>
-                    <div class="project-info">
-                        <h3>[Project Name 3]</h3>
-                        <p>[Short description of the app features]</p>
-                        <div class="tech-stack">
-                            <span>Flutter</span>
-                            <span>API Integration</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        </div>
-                    </div>
-                </div>
+                <!-- Add more project cards as needed -->
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p>Have an app idea? Let's build it together!</p>
-                <a href="mailto:bnwbsalm9@gmail.com" class="btn btn-primary">Send Message</a>
-            </div>
+    <section id="contact" class="py-20 bg-gradient-to-br from-indigo-600 to-purple-600 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4" data-aos="fade-up">Get In Touch</h2>
+            <p class="text-xl mb-8" data-aos="fade-up" data-aos-delay="100">Have an app idea? Let's build it together!
+            </p>
+            <a href="mailto:bnwbsalm9@gmail.com"
+                class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-all transform hover:scale-105"
+                data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-envelope mr-2"></i>
+                Send Message
+            </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>Designed & Built by Mohammed Salem Alhebshi &copy; 2026</p>
+    <footer class="bg-gray-900 dark:bg-black text-white py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p>Designed & Built by Mohammed Salem Alhebshi © 2026</p>
         </div>
     </footer>
 
-    <div id="project-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-body">
-                <div class="modal-gallery">
-                    <div class="gallery-main">
-                        <img src="" alt="Project Image" id="modal-img">
-                    </div>
-                    <!-- Thumbnails can be added here -->
-                </div>
-                <div class="modal-info">
-                    <h2 id="modal-title">Project Title</h2>
-                    <p id="modal-desc">Project Description</p>
-                    <div class="tech-stack" id="modal-tech">
-                        <!-- Tech stack will be populated here -->
-                    </div>
-                    <a href="#" target="_blank" class="btn btn-primary" id="modal-link">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
 </body>
 
